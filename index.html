@@ -3,18 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Before / After スライダー比較ツール</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Noto+Sans+JP:wght@300;500;700&display=swap" rel="stylesheet">
+    <title>デザイン比較ツール - Before / After</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Noto+Sans+JP:wght@300;500&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         :root {
-            --bg-dark: #0a0a0f;
-            --bg-card: #13131a;
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
             --accent: #6366f1;
             --accent-glow: rgba(99, 102, 241, 0.4);
             --text-primary: #f8fafc;
@@ -22,32 +18,38 @@
             --border: rgba(255, 255, 255, 0.08);
         }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Outfit', 'Noto Sans JP', sans-serif;
-            background: var(--bg-dark);
-            min-height: 100vh;
+            background: var(--bg-primary);
             color: var(--text-primary);
+            min-height: 100vh;
             overflow-x: hidden;
         }
 
         /* 背景エフェクト */
-        .bg-gradient {
+        .bg-effect {
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.15), transparent),
-                radial-gradient(ellipse 60% 40% at 100% 100%, rgba(139, 92, 246, 0.1), transparent);
+            width: 100%;
+            height: 100%;
             pointer-events: none;
             z-index: 0;
+            background: 
+                radial-gradient(ellipse 80% 50% at 50% -20%, var(--accent-glow), transparent),
+                radial-gradient(ellipse 60% 40% at 80% 100%, rgba(168, 85, 247, 0.15), transparent);
         }
 
         .container {
             position: relative;
             z-index: 1;
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 40px 20px;
         }
@@ -55,11 +57,11 @@
         /* ヘッダー */
         header {
             text-align: center;
-            margin-bottom: 48px;
+            margin-bottom: 50px;
         }
 
         h1 {
-            font-size: 2.5rem;
+            font-size: clamp(2rem, 5vw, 3.5rem);
             font-weight: 700;
             letter-spacing: -0.02em;
             margin-bottom: 12px;
@@ -80,14 +82,14 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 24px;
-            margin-bottom: 48px;
+            margin-bottom: 40px;
         }
 
         .upload-box {
-            background: var(--bg-card);
+            background: var(--bg-secondary);
             border: 2px dashed var(--border);
             border-radius: 16px;
-            padding: 40px 24px;
+            padding: 40px 20px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -103,226 +105,213 @@
         .upload-box.has-image {
             padding: 0;
             border-style: solid;
-            border-color: var(--accent);
+        }
+
+        .upload-box img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
         }
 
         .upload-box input {
             display: none;
         }
 
+        .upload-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-top: 12px;
+        }
+
         .upload-icon {
             width: 48px;
             height: 48px;
             margin: 0 auto 16px;
-            opacity: 0.5;
+            opacity: 0.6;
         }
 
-        .upload-label {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        .upload-title {
-            font-size: 1.25rem;
-            font-weight: 500;
-            margin-bottom: 8px;
-        }
-
-        .upload-hint {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            opacity: 0.7;
-        }
-
-        .upload-box .preview {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 14px;
-        }
-
-        .upload-box .remove-btn {
+        .tag {
             position: absolute;
             top: 12px;
-            right: 12px;
-            width: 32px;
-            height: 32px;
-            background: rgba(0, 0, 0, 0.7);
-            border: none;
-            border-radius: 50%;
+            left: 12px;
+            background: var(--accent);
             color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.2s;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
         }
 
-        .upload-box:hover .remove-btn {
-            opacity: 1;
+        .tag.after {
+            background: #10b981;
         }
 
-        /* 比較スライダー */
-        .comparison-container {
+        /* 比較エリア */
+        .compare-section {
+            display: none;
+            margin-top: 40px;
+        }
+
+        .compare-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .compare-container {
             position: relative;
             width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
+            aspect-ratio: 16 / 10;
             border-radius: 20px;
             overflow: hidden;
-            background: var(--bg-card);
+            background: var(--bg-secondary);
             box-shadow: 
-                0 0 0 1px var(--border),
-                0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-
-        .comparison-wrapper {
-            position: relative;
-            width: 100%;
-            height: 70vh;
-            overflow: hidden;
+                0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                0 0 0 1px var(--border);
             cursor: ew-resize;
-            background: #000;
         }
 
-        .comparison-wrapper.empty {
-            height: 70vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, var(--bg-card) 0%, #1a1a24 100%);
-        }
-
-        .empty-state {
-            text-align: center;
-            color: var(--text-secondary);
-        }
-
-        .empty-state svg {
-            width: 64px;
-            height: 64px;
-            margin-bottom: 16px;
-            opacity: 0.3;
-        }
-
-        /* 画像レイヤー */
-        .image-layer {
+        .compare-image {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-        }
-
-        .image-layer img {
-            width: 100%;
-            height: 100%;
             object-fit: contain;
-            display: block;
+            background: var(--bg-secondary);
         }
 
-        .before-layer {
-            z-index: 2;
-            clip-path: inset(0 0 0 0);
+        .compare-image.before {
+            clip-path: inset(0 50% 0 0);
         }
 
-        .after-layer {
-            z-index: 1;
+        .compare-image.after {
+            clip-path: inset(0 0 0 50%);
         }
 
-        /* スライダーハンドル */
-        .slider-handle {
+        /* スライダーライン */
+        .slider-line {
             position: absolute;
             top: 0;
-            left: 0%;
-            width: 4px;
+            left: 50%;
+            width: 3px;
             height: 100%;
             background: white;
             transform: translateX(-50%);
             z-index: 10;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
         }
 
-        .slider-handle::before {
-            content: '';
+        .slider-handle {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 48px;
-            height: 48px;
+            width: 56px;
+            height: 56px;
             background: white;
             border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             box-shadow: 
                 0 4px 20px rgba(0, 0, 0, 0.3),
                 0 0 0 4px rgba(255, 255, 255, 0.2);
+            z-index: 11;
+            transition: transform 0.2s ease;
         }
 
-        .slider-handle::after {
-            content: '⟨  ⟩';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--bg-dark);
-            letter-spacing: 8px;
-            white-space: nowrap;
+        .compare-container:hover .slider-handle {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .slider-handle svg {
+            width: 24px;
+            height: 24px;
+            color: var(--bg-primary);
         }
 
         /* ラベル */
-        .label {
+        .compare-labels {
             position: absolute;
             bottom: 20px;
-            padding: 8px 16px;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(8px);
-            border-radius: 100px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            z-index: 15;
-        }
-
-        .label-before {
             left: 20px;
-        }
-
-        .label-after {
             right: 20px;
+            display: flex;
+            justify-content: space-between;
+            z-index: 5;
+            pointer-events: none;
         }
 
-        /* 操作説明 */
-        .instructions {
+        .compare-label {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+
+        .compare-label.before {
+            color: #f87171;
+        }
+
+        .compare-label.after {
+            color: #4ade80;
+        }
+
+        /* 操作ヒント */
+        .hint {
             text-align: center;
             margin-top: 24px;
             color: var(--text-secondary);
-            font-size: 0.875rem;
-        }
-
-        .instructions span {
-            display: inline-flex;
+            font-size: 0.9rem;
+            display: flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
-            background: var(--bg-card);
-            padding: 8px 16px;
-            border-radius: 100px;
-            border: 1px solid var(--border);
         }
 
-        /* フッター */
-        footer {
-            text-align: center;
-            margin-top: 64px;
-            padding-top: 32px;
-            border-top: 1px solid var(--border);
+        .hint-icon {
+            width: 20px;
+            height: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* リセットボタン */
+        .reset-btn {
+            display: block;
+            margin: 30px auto 0;
+            padding: 14px 32px;
+            background: transparent;
+            border: 1px solid var(--border);
             color: var(--text-secondary);
-            font-size: 0.75rem;
+            border-radius: 30px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .reset-btn:hover {
+            background: var(--bg-secondary);
+            border-color: var(--accent);
+            color: var(--text-primary);
         }
 
         /* レスポンシブ */
@@ -331,242 +320,173 @@
                 grid-template-columns: 1fr;
             }
 
-            h1 {
-                font-size: 1.75rem;
+            .container {
+                padding: 24px 16px;
+            }
+
+            .slider-handle {
+                width: 44px;
+                height: 44px;
+            }
+
+            .slider-handle svg {
+                width: 20px;
+                height: 20px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="bg-gradient"></div>
+    <div class="bg-effect"></div>
     
     <div class="container">
         <header>
-            <h1>Before / After 比較</h1>
-            <p class="subtitle">デザインの変化をスライダーで直感的に比較</p>
+            <h1>Before / After Compare</h1>
+            <p class="subtitle">マウスホイールまたはドラッグで比較できます</p>
         </header>
 
-        <!-- アップロードエリア -->
+        <!-- アップロードセクション -->
         <div class="upload-section">
-            <div class="upload-box" id="beforeUpload">
+            <div class="upload-box" id="beforeBox">
+                <span class="tag">Before</span>
+                <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                <span class="upload-label">クリックして Before 画像を選択</span>
                 <input type="file" id="beforeInput" accept="image/*">
-                <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                </svg>
-                <span class="upload-label">BEFORE</span>
-                <span class="upload-title">変更前の画像</span>
-                <span class="upload-hint">クリックまたはドラッグ&ドロップ</span>
             </div>
 
-            <div class="upload-box" id="afterUpload">
+            <div class="upload-box" id="afterBox">
+                <span class="tag after">After</span>
+                <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                <span class="upload-label">クリックして After 画像を選択</span>
                 <input type="file" id="afterInput" accept="image/*">
-                <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                </svg>
-                <span class="upload-label">AFTER</span>
-                <span class="upload-title">変更後の画像</span>
-                <span class="upload-hint">クリックまたはドラッグ&ドロップ</span>
             </div>
         </div>
 
-        <!-- 比較スライダー -->
-        <div class="comparison-container">
-            <div class="comparison-wrapper empty" id="comparisonWrapper">
-                <div class="empty-state" id="emptyState">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-                        <path d="M9 17V7m0 10l-3-3m3 3l3-3M15 7v10m0-10l3 3m-3-3l-3 3"/>
+        <!-- 比較セクション -->
+        <div class="compare-section" id="compareSection">
+            <div class="compare-container" id="compareContainer">
+                <img class="compare-image before" id="beforeImage" src="" alt="Before">
+                <img class="compare-image after" id="afterImage" src="" alt="After">
+                
+                <div class="slider-line" id="sliderLine"></div>
+                <div class="slider-handle" id="sliderHandle">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"/>
                     </svg>
-                    <p>画像をアップロードして比較</p>
                 </div>
 
-                <!-- After画像（下レイヤー） -->
-                <div class="image-layer after-layer" id="afterLayer" style="display: none;">
-                    <img id="afterImage" src="" alt="After">
+                <div class="compare-labels">
+                    <span class="compare-label before">BEFORE</span>
+                    <span class="compare-label after">AFTER</span>
                 </div>
-
-                <!-- Before画像（上レイヤー、clip-pathで切り抜き） -->
-                <div class="image-layer before-layer" id="beforeLayer" style="display: none;">
-                    <img id="beforeImage" src="" alt="Before">
-                </div>
-
-                <!-- スライダーハンドル -->
-                <div class="slider-handle" id="sliderHandle" style="display: none;"></div>
-
-                <!-- ラベル -->
-                <span class="label label-before" id="labelBefore" style="display: none;">Before</span>
-                <span class="label label-after" id="labelAfter" style="display: none;">After</span>
             </div>
-        </div>
 
-        <div class="instructions" id="instructions" style="display: none;">
-            <span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M5 9l4 4 4-4M5 15l4 4 4-4"/>
+            <p class="hint">
+                <svg class="hint-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/>
                 </svg>
-                左右にドラッグして比較
-            </span>
-        </div>
+                マウスホイールをスクロール、またはドラッグして比較
+            </p>
 
-        <footer>
-            <p>DEZACON STUDIO — Design Before/After Comparison Tool</p>
-        </footer>
+            <button class="reset-btn" id="resetBtn">画像をリセット</button>
+        </div>
     </div>
 
     <script>
         // 要素の取得
-        const beforeUpload = document.getElementById('beforeUpload');
-        const afterUpload = document.getElementById('afterUpload');
+        const beforeBox = document.getElementById('beforeBox');
+        const afterBox = document.getElementById('afterBox');
         const beforeInput = document.getElementById('beforeInput');
         const afterInput = document.getElementById('afterInput');
-        const comparisonWrapper = document.getElementById('comparisonWrapper');
-        const beforeLayer = document.getElementById('beforeLayer');
-        const afterLayer = document.getElementById('afterLayer');
         const beforeImage = document.getElementById('beforeImage');
         const afterImage = document.getElementById('afterImage');
+        const compareSection = document.getElementById('compareSection');
+        const compareContainer = document.getElementById('compareContainer');
+        const sliderLine = document.getElementById('sliderLine');
         const sliderHandle = document.getElementById('sliderHandle');
-        const emptyState = document.getElementById('emptyState');
-        const labelBefore = document.getElementById('labelBefore');
-        const labelAfter = document.getElementById('labelAfter');
-        const instructions = document.getElementById('instructions');
+        const resetBtn = document.getElementById('resetBtn');
 
         let beforeLoaded = false;
         let afterLoaded = false;
-        let isDragging = false;
+        let sliderPosition = 50;
 
         // 画像アップロード処理
-        function setupUpload(uploadBox, input, isBeforeImage) {
-            uploadBox.addEventListener('click', (e) => {
-                if (e.target.classList.contains('remove-btn')) return;
-                input.click();
-            });
-
-            uploadBox.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                uploadBox.style.borderColor = 'var(--accent)';
-            });
-
-            uploadBox.addEventListener('dragleave', () => {
-                if (!uploadBox.classList.contains('has-image')) {
-                    uploadBox.style.borderColor = '';
-                }
-            });
-
-            uploadBox.addEventListener('drop', (e) => {
-                e.preventDefault();
-                const file = e.dataTransfer.files[0];
-                if (file && file.type.startsWith('image/')) {
-                    handleImage(file, uploadBox, isBeforeImage);
-                }
-            });
-
+        function handleImageUpload(input, box, img, type) {
             input.addEventListener('change', (e) => {
                 const file = e.target.files[0];
                 if (file) {
-                    handleImage(file, uploadBox, isBeforeImage);
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        // プレビュー表示
+                        box.innerHTML = `
+                            <span class="tag ${type === 'after' ? 'after' : ''}">${type === 'before' ? 'Before' : 'After'}</span>
+                            <img src="${event.target.result}" alt="${type}">
+                        `;
+                        box.classList.add('has-image');
+                        
+                        // 比較画像にセット
+                        img.src = event.target.result;
+                        
+                        if (type === 'before') beforeLoaded = true;
+                        if (type === 'after') afterLoaded = true;
+                        
+                        checkBothLoaded();
+                    };
+                    reader.readAsDataURL(file);
                 }
             });
         }
 
-        function handleImage(file, uploadBox, isBeforeImage) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const imgUrl = e.target.result;
-                
-                // プレビュー表示
-                uploadBox.innerHTML = `
-                    <img class="preview" src="${imgUrl}" alt="Preview">
-                    <button class="remove-btn" onclick="removeImage(${isBeforeImage})">✕</button>
-                `;
-                uploadBox.classList.add('has-image');
+        // クリックでinputを発火
+        beforeBox.addEventListener('click', () => beforeInput.click());
+        afterBox.addEventListener('click', () => afterInput.click());
 
-                // 比較画像に設定
-                if (isBeforeImage) {
-                    beforeImage.src = imgUrl;
-                    beforeLoaded = true;
-                } else {
-                    afterImage.src = imgUrl;
-                    afterLoaded = true;
-                }
+        // 画像アップロード処理を設定
+        handleImageUpload(beforeInput, beforeBox, beforeImage, 'before');
+        handleImageUpload(afterInput, afterBox, afterImage, 'after');
 
-                updateComparison();
-            };
-            reader.readAsDataURL(file);
-        }
-
-        window.removeImage = function(isBeforeImage) {
-            const uploadBox = isBeforeImage ? beforeUpload : afterUpload;
-            
-            uploadBox.innerHTML = `
-                <input type="file" id="${isBeforeImage ? 'before' : 'after'}Input" accept="image/*">
-                <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                </svg>
-                <span class="upload-label">${isBeforeImage ? 'BEFORE' : 'AFTER'}</span>
-                <span class="upload-title">${isBeforeImage ? '変更前' : '変更後'}の画像</span>
-                <span class="upload-hint">クリックまたはドラッグ&ドロップ</span>
-            `;
-            uploadBox.classList.remove('has-image');
-            
-            // inputを再取得してイベントを再設定
-            const newInput = uploadBox.querySelector('input');
-            setupUpload(uploadBox, newInput, isBeforeImage);
-
-            if (isBeforeImage) {
-                beforeImage.src = '';
-                beforeLoaded = false;
-            } else {
-                afterImage.src = '';
-                afterLoaded = false;
-            }
-
-            updateComparison();
-        };
-
-        function updateComparison() {
+        // 両方の画像が読み込まれたか確認
+        function checkBothLoaded() {
             if (beforeLoaded && afterLoaded) {
-                comparisonWrapper.classList.remove('empty');
-                emptyState.style.display = 'none';
-                beforeLayer.style.display = 'block';
-                afterLayer.style.display = 'block';
-                sliderHandle.style.display = 'block';
-                labelBefore.style.display = 'block';
-                labelAfter.style.display = 'block';
-                instructions.style.display = 'block';
-            } else {
-                comparisonWrapper.classList.add('empty');
-                emptyState.style.display = 'block';
-                beforeLayer.style.display = 'none';
-                afterLayer.style.display = 'none';
-                sliderHandle.style.display = 'none';
-                labelBefore.style.display = 'none';
-                labelAfter.style.display = 'none';
-                instructions.style.display = 'none';
+                compareSection.classList.add('active');
+                updateSlider(50);
             }
         }
 
-        // スライダー操作
-        function updateSliderPosition(clientX) {
-            const rect = comparisonWrapper.getBoundingClientRect();
-            let position = (clientX - rect.left) / rect.width;
-            position = Math.max(0, Math.min(1, position));
+        // スライダー更新
+        function updateSlider(position) {
+            position = Math.max(0, Math.min(100, position));
+            sliderPosition = position;
             
-            const percentage = position * 100;
-            
-            // Beforeを右側から表示（スライダーより右側のみ表示）
-            // スライダーを右に動かすとAfterが左から出現
-            beforeLayer.style.clipPath = `inset(0 0 0 ${percentage}%)`;
-            sliderHandle.style.left = percentage + '%';
+            sliderLine.style.left = `${position}%`;
+            sliderHandle.style.left = `${position}%`;
+            beforeImage.style.clipPath = `inset(0 ${100 - position}% 0 0)`;
+            afterImage.style.clipPath = `inset(0 0 0 ${position}%)`;
         }
 
-        comparisonWrapper.addEventListener('mousedown', (e) => {
-            if (!beforeLoaded || !afterLoaded) return;
+        // マウスホイールでスライダー操作
+        compareContainer.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            const delta = e.deltaY > 0 ? 2 : -2;
+            updateSlider(sliderPosition + delta);
+        }, { passive: false });
+
+        // ドラッグでスライダー操作
+        let isDragging = false;
+
+        compareContainer.addEventListener('mousedown', (e) => {
             isDragging = true;
-            updateSliderPosition(e.clientX);
+            updateSliderFromMouse(e);
         });
 
         document.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
-            updateSliderPosition(e.clientX);
+            if (isDragging) {
+                updateSliderFromMouse(e);
+            }
         });
 
         document.addEventListener('mouseup', () => {
@@ -574,24 +494,70 @@
         });
 
         // タッチ対応
-        comparisonWrapper.addEventListener('touchstart', (e) => {
-            if (!beforeLoaded || !afterLoaded) return;
+        compareContainer.addEventListener('touchstart', (e) => {
             isDragging = true;
-            updateSliderPosition(e.touches[0].clientX);
+            updateSliderFromTouch(e);
         });
 
         document.addEventListener('touchmove', (e) => {
-            if (!isDragging) return;
-            updateSliderPosition(e.touches[0].clientX);
+            if (isDragging) {
+                updateSliderFromTouch(e);
+            }
         });
 
         document.addEventListener('touchend', () => {
             isDragging = false;
         });
 
-        // 初期化
-        setupUpload(beforeUpload, beforeInput, true);
-        setupUpload(afterUpload, afterInput, false);
+        function updateSliderFromMouse(e) {
+            const rect = compareContainer.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const percentage = (x / rect.width) * 100;
+            updateSlider(percentage);
+        }
+
+        function updateSliderFromTouch(e) {
+            const touch = e.touches[0];
+            const rect = compareContainer.getBoundingClientRect();
+            const x = touch.clientX - rect.left;
+            const percentage = (x / rect.width) * 100;
+            updateSlider(percentage);
+        }
+
+        // リセット
+        resetBtn.addEventListener('click', () => {
+            beforeLoaded = false;
+            afterLoaded = false;
+            sliderPosition = 50;
+            
+            beforeBox.innerHTML = `
+                <span class="tag">Before</span>
+                <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                <span class="upload-label">クリックして Before 画像を選択</span>
+                <input type="file" id="beforeInput" accept="image/*">
+            `;
+            beforeBox.classList.remove('has-image');
+            
+            afterBox.innerHTML = `
+                <span class="tag after">After</span>
+                <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                <span class="upload-label">クリックして After 画像を選択</span>
+                <input type="file" id="afterInput" accept="image/*">
+            `;
+            afterBox.classList.remove('has-image');
+            
+            compareSection.classList.remove('active');
+            
+            // イベントリスナーを再設定
+            const newBeforeInput = document.getElementById('beforeInput');
+            const newAfterInput = document.getElementById('afterInput');
+            handleImageUpload(newBeforeInput, beforeBox, beforeImage, 'before');
+            handleImageUpload(newAfterInput, afterBox, afterImage, 'after');
+        });
     </script>
 </body>
 </html>
