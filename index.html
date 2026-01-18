@@ -224,12 +224,12 @@
         }
 
         .before-layer {
-            z-index: 2;
-            clip-path: inset(0 50% 0 0);
+            z-index: 1;
         }
 
         .after-layer {
-            z-index: 1;
+            z-index: 2;
+            clip-path: inset(0 0 0 50%);
         }
 
         /* スライダーハンドル */
@@ -560,8 +560,8 @@
             
             const percentage = position * 100;
             
-            // clip-pathでBefore画像を切り抜き
-            beforeLayer.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+            // clip-pathでAfter画像を右から切り抜き（スライダーより右側を表示）
+            afterLayer.style.clipPath = `inset(0 0 0 ${percentage}%)`;
             sliderHandle.style.left = percentage + '%';
         }
 
