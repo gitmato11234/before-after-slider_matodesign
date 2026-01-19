@@ -32,7 +32,6 @@
             overflow-x: hidden;
         }
 
-        /* 背景エフェクト */
         .bg-effect {
             position: fixed;
             top: 0;
@@ -54,7 +53,6 @@
             padding: 40px 20px;
         }
 
-        /* ヘッダー */
         header {
             text-align: center;
             margin-bottom: 50px;
@@ -77,7 +75,6 @@
             font-weight: 300;
         }
 
-        /* アップロードエリア */
         .upload-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -145,13 +142,13 @@
             font-weight: 500;
             letter-spacing: 0.05em;
             text-transform: uppercase;
+            z-index: 2;
         }
 
         .tag.after {
             background: #10b981;
         }
 
-        /* 比較エリア */
         .compare-section {
             display: none;
             margin-top: 40px;
@@ -198,7 +195,6 @@
             clip-path: inset(0 0 0 50%);
         }
 
-        /* スライダーライン */
         .slider-line {
             position: absolute;
             top: 0;
@@ -240,7 +236,6 @@
             color: var(--bg-primary);
         }
 
-        /* ラベル */
         .compare-labels {
             position: absolute;
             bottom: 20px;
@@ -270,7 +265,6 @@
             color: #4ade80;
         }
 
-        /* 操作ヒント */
         .hint {
             text-align: center;
             margin-top: 24px;
@@ -293,28 +287,178 @@
             50% { transform: translateY(-5px); }
         }
 
-        /* リセットボタン */
-        .reset-btn {
-            display: block;
-            margin: 30px auto 0;
-            padding: 14px 32px;
+        /* 動画設定セクション */
+        .video-settings {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 32px;
+            border: 1px solid var(--border);
+        }
+
+        .video-settings h3 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .video-settings h3 svg {
+            width: 24px;
+            height: 24px;
+            color: var(--accent);
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .setting-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .setting-item label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .setting-item input,
+        .setting-item select {
+            padding: 12px 16px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .setting-item input:focus,
+        .setting-item select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .setting-item select {
+            cursor: pointer;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-secondary {
             background: transparent;
             border: 1px solid var(--border);
             color: var(--text-secondary);
-            border-radius: 30px;
-            font-family: inherit;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
         }
 
-        .reset-btn:hover {
-            background: var(--bg-secondary);
+        .btn-secondary:hover {
+            background: var(--bg-primary);
             border-color: var(--accent);
             color: var(--text-primary);
         }
 
-        /* レスポンシブ */
+        .btn-success {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-success:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* プログレスバー */
+        .progress-container {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .progress-container.active {
+            display: block;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--bg-primary);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), #8b5cf6);
+            border-radius: 10px;
+            transition: width 0.1s ease;
+            width: 0%;
+        }
+
+        .progress-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        /* 隠しCanvas */
+        #renderCanvas {
+            display: none;
+        }
+
         @media (max-width: 640px) {
             .upload-section {
                 grid-template-columns: 1fr;
@@ -333,6 +477,14 @@
                 width: 20px;
                 height: 20px;
             }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                justify-content: center;
+            }
         }
     </style>
 </head>
@@ -342,10 +494,9 @@
     <div class="container">
         <header>
             <h1>Before / After Compare</h1>
-            <p class="subtitle">マウスホイールまたはドラッグで比較できます</p>
+            <p class="subtitle">マウスホイールまたはドラッグで比較 → 動画で書き出し</p>
         </header>
 
-        <!-- アップロードセクション -->
         <div class="upload-section">
             <div class="upload-box" id="beforeBox">
                 <span class="tag">Before</span>
@@ -366,7 +517,6 @@
             </div>
         </div>
 
-        <!-- 比較セクション -->
         <div class="compare-section" id="compareSection">
             <div class="compare-container" id="compareContainer">
                 <img class="compare-image before" id="beforeImage" src="" alt="Before">
@@ -392,9 +542,73 @@
                 マウスホイールをスクロール、またはドラッグして比較
             </p>
 
-            <button class="reset-btn" id="resetBtn">画像をリセット</button>
+            <!-- 動画設定セクション -->
+            <div class="video-settings">
+                <h3>
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                    </svg>
+                    動画書き出し設定
+                </h3>
+
+                <div class="settings-grid">
+                    <div class="setting-item">
+                        <label for="duration">アニメーション時間（秒）</label>
+                        <input type="number" id="duration" value="3" min="1" max="10" step="0.5">
+                    </div>
+
+                    <div class="setting-item">
+                        <label for="resolution">解像度</label>
+                        <select id="resolution">
+                            <option value="1080">1080p (1920×1080)</option>
+                            <option value="720">720p (1280×720)</option>
+                            <option value="480">480p (854×480)</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-item">
+                        <label for="fps">フレームレート</label>
+                        <select id="fps">
+                            <option value="30">30 FPS</option>
+                            <option value="60">60 FPS</option>
+                            <option value="24">24 FPS</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" id="previewBtn">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        プレビュー再生
+                    </button>
+
+                    <button class="btn btn-success" id="exportBtn">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                        </svg>
+                        動画をダウンロード
+                    </button>
+
+                    <button class="btn btn-secondary" id="resetBtn">
+                        画像をリセット
+                    </button>
+                </div>
+
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <p class="progress-text" id="progressText">準備中...</p>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- 描画用Canvas（非表示） -->
+    <canvas id="renderCanvas"></canvas>
 
     <script>
         // 要素の取得
@@ -409,10 +623,20 @@
         const sliderLine = document.getElementById('sliderLine');
         const sliderHandle = document.getElementById('sliderHandle');
         const resetBtn = document.getElementById('resetBtn');
+        const previewBtn = document.getElementById('previewBtn');
+        const exportBtn = document.getElementById('exportBtn');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const renderCanvas = document.getElementById('renderCanvas');
+        const ctx = renderCanvas.getContext('2d');
 
         let beforeLoaded = false;
         let afterLoaded = false;
         let sliderPosition = 50;
+        let isAnimating = false;
+        let beforeImageData = null;
+        let afterImageData = null;
 
         // 画像アップロード処理
         function handleImageUpload(input, box, img, type) {
@@ -421,35 +645,39 @@
                 if (file) {
                     const reader = new FileReader();
                     reader.onload = (event) => {
-                        // プレビュー表示
                         box.innerHTML = `
                             <span class="tag ${type === 'after' ? 'after' : ''}">${type === 'before' ? 'Before' : 'After'}</span>
                             <img src="${event.target.result}" alt="${type}">
                         `;
                         box.classList.add('has-image');
                         
-                        // 比較画像にセット
                         img.src = event.target.result;
                         
-                        if (type === 'before') beforeLoaded = true;
-                        if (type === 'after') afterLoaded = true;
-                        
-                        checkBothLoaded();
+                        // 画像データを保存
+                        const tempImg = new Image();
+                        tempImg.onload = () => {
+                            if (type === 'before') {
+                                beforeImageData = tempImg;
+                                beforeLoaded = true;
+                            } else {
+                                afterImageData = tempImg;
+                                afterLoaded = true;
+                            }
+                            checkBothLoaded();
+                        };
+                        tempImg.src = event.target.result;
                     };
                     reader.readAsDataURL(file);
                 }
             });
         }
 
-        // クリックでinputを発火
         beforeBox.addEventListener('click', () => beforeInput.click());
         afterBox.addEventListener('click', () => afterInput.click());
 
-        // 画像アップロード処理を設定
         handleImageUpload(beforeInput, beforeBox, beforeImage, 'before');
         handleImageUpload(afterInput, afterBox, afterImage, 'after');
 
-        // 両方の画像が読み込まれたか確認
         function checkBothLoaded() {
             if (beforeLoaded && afterLoaded) {
                 compareSection.classList.add('active');
@@ -457,7 +685,6 @@
             }
         }
 
-        // スライダー更新
         function updateSlider(position) {
             position = Math.max(0, Math.min(100, position));
             sliderPosition = position;
@@ -468,23 +695,23 @@
             afterImage.style.clipPath = `inset(0 0 0 ${position}%)`;
         }
 
-        // マウスホイールでスライダー操作
         compareContainer.addEventListener('wheel', (e) => {
+            if (isAnimating) return;
             e.preventDefault();
             const delta = e.deltaY > 0 ? 2 : -2;
             updateSlider(sliderPosition + delta);
         }, { passive: false });
 
-        // ドラッグでスライダー操作
         let isDragging = false;
 
         compareContainer.addEventListener('mousedown', (e) => {
+            if (isAnimating) return;
             isDragging = true;
             updateSliderFromMouse(e);
         });
 
         document.addEventListener('mousemove', (e) => {
-            if (isDragging) {
+            if (isDragging && !isAnimating) {
                 updateSliderFromMouse(e);
             }
         });
@@ -493,14 +720,14 @@
             isDragging = false;
         });
 
-        // タッチ対応
         compareContainer.addEventListener('touchstart', (e) => {
+            if (isAnimating) return;
             isDragging = true;
             updateSliderFromTouch(e);
         });
 
         document.addEventListener('touchmove', (e) => {
-            if (isDragging) {
+            if (isDragging && !isAnimating) {
                 updateSliderFromTouch(e);
             }
         });
@@ -524,10 +751,271 @@
             updateSlider(percentage);
         }
 
+        // プレビューアニメーション
+        previewBtn.addEventListener('click', () => {
+            if (isAnimating) return;
+            
+            const duration = parseFloat(document.getElementById('duration').value) * 1000;
+            playAnimation(duration);
+        });
+
+        function playAnimation(duration) {
+            isAnimating = true;
+            previewBtn.disabled = true;
+            exportBtn.disabled = true;
+
+            const startTime = performance.now();
+            const startPosition = 0;
+            const endPosition = 100;
+
+            function animate(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // イージング（ease-in-out）
+                const eased = progress < 0.5 
+                    ? 2 * progress * progress 
+                    : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+                
+                const position = startPosition + (endPosition - startPosition) * eased;
+                updateSlider(position);
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                } else {
+                    isAnimating = false;
+                    previewBtn.disabled = false;
+                    exportBtn.disabled = false;
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        // 動画書き出し
+        exportBtn.addEventListener('click', async () => {
+            if (isAnimating) return;
+            
+            const duration = parseFloat(document.getElementById('duration').value);
+            const resolution = document.getElementById('resolution').value;
+            const fps = parseInt(document.getElementById('fps').value);
+
+            await exportVideo(duration, resolution, fps);
+        });
+
+        async function exportVideo(duration, resolution, fps) {
+            isAnimating = true;
+            previewBtn.disabled = true;
+            exportBtn.disabled = true;
+            progressContainer.classList.add('active');
+
+            // 解像度設定
+            const resolutions = {
+                '1080': { width: 1920, height: 1080 },
+                '720': { width: 1280, height: 720 },
+                '480': { width: 854, height: 480 }
+            };
+
+            const { width, height } = resolutions[resolution];
+            renderCanvas.width = width;
+            renderCanvas.height = height;
+
+            const totalFrames = Math.ceil(duration * fps);
+            const frameInterval = 1000 / fps;
+
+            // MediaRecorderのセットアップ
+            const stream = renderCanvas.captureStream(fps);
+            const mediaRecorder = new MediaRecorder(stream, {
+                mimeType: 'video/webm;codecs=vp9',
+                videoBitsPerSecond: 8000000
+            });
+
+            const chunks = [];
+            mediaRecorder.ondataavailable = (e) => {
+                if (e.data.size > 0) {
+                    chunks.push(e.data);
+                }
+            };
+
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(chunks, { type: 'video/webm' });
+                const url = URL.createObjectURL(blob);
+                
+                // ダウンロード
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `before-after-${Date.now()}.webm`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                // リセット
+                isAnimating = false;
+                previewBtn.disabled = false;
+                exportBtn.disabled = false;
+                progressContainer.classList.remove('active');
+                progressFill.style.width = '0%';
+            };
+
+            mediaRecorder.start();
+
+            // フレームごとに描画
+            for (let frame = 0; frame <= totalFrames; frame++) {
+                const progress = frame / totalFrames;
+                
+                // イージング
+                const eased = progress < 0.5 
+                    ? 2 * progress * progress 
+                    : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+                
+                const sliderPos = eased * 100;
+
+                // フレーム描画
+                drawFrame(width, height, sliderPos);
+                
+                // プレビューも更新
+                updateSlider(sliderPos);
+
+                // プログレス更新
+                const percent = Math.round((frame / totalFrames) * 100);
+                progressFill.style.width = `${percent}%`;
+                progressText.textContent = `書き出し中... ${percent}% (${frame}/${totalFrames} フレーム)`;
+
+                // フレーム間隔を待つ
+                await new Promise(resolve => setTimeout(resolve, frameInterval));
+            }
+
+            mediaRecorder.stop();
+            progressText.textContent = 'ダウンロード準備中...';
+        }
+
+        function drawFrame(width, height, sliderPos) {
+            // 背景をクリア
+            ctx.fillStyle = '#12121a';
+            ctx.fillRect(0, 0, width, height);
+
+            if (!beforeImageData || !afterImageData) return;
+
+            // 画像のアスペクト比を維持して中央配置
+            const imgAspect = beforeImageData.width / beforeImageData.height;
+            const canvasAspect = width / height;
+
+            let drawWidth, drawHeight, offsetX, offsetY;
+
+            if (imgAspect > canvasAspect) {
+                drawWidth = width;
+                drawHeight = width / imgAspect;
+                offsetX = 0;
+                offsetY = (height - drawHeight) / 2;
+            } else {
+                drawHeight = height;
+                drawWidth = height * imgAspect;
+                offsetX = (width - drawWidth) / 2;
+                offsetY = 0;
+            }
+
+            const splitX = offsetX + (drawWidth * sliderPos / 100);
+
+            // Before画像（左側）
+            ctx.save();
+            ctx.beginPath();
+            ctx.rect(0, 0, splitX, height);
+            ctx.clip();
+            ctx.drawImage(beforeImageData, offsetX, offsetY, drawWidth, drawHeight);
+            ctx.restore();
+
+            // After画像（右側）
+            ctx.save();
+            ctx.beginPath();
+            ctx.rect(splitX, 0, width - splitX, height);
+            ctx.clip();
+            ctx.drawImage(afterImageData, offsetX, offsetY, drawWidth, drawHeight);
+            ctx.restore();
+
+            // スライダーライン
+            ctx.fillStyle = 'white';
+            ctx.shadowColor = 'rgba(255, 255, 255, 0.5)';
+            ctx.shadowBlur = 20;
+            ctx.fillRect(splitX - 1.5, 0, 3, height);
+            ctx.shadowBlur = 0;
+
+            // スライダーハンドル
+            const handleY = height / 2;
+            const handleRadius = 28;
+            
+            ctx.beginPath();
+            ctx.arc(splitX, handleY, handleRadius, 0, Math.PI * 2);
+            ctx.fillStyle = 'white';
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+            ctx.shadowBlur = 10;
+            ctx.fill();
+            ctx.shadowBlur = 0;
+
+            // 矢印アイコン
+            ctx.strokeStyle = '#0a0a0f';
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.linejoin = 'round';
+            
+            // 左矢印
+            ctx.beginPath();
+            ctx.moveTo(splitX - 6, handleY);
+            ctx.lineTo(splitX - 12, handleY - 6);
+            ctx.moveTo(splitX - 6, handleY);
+            ctx.lineTo(splitX - 12, handleY + 6);
+            ctx.stroke();
+            
+            // 右矢印
+            ctx.beginPath();
+            ctx.moveTo(splitX + 6, handleY);
+            ctx.lineTo(splitX + 12, handleY - 6);
+            ctx.moveTo(splitX + 6, handleY);
+            ctx.lineTo(splitX + 12, handleY + 6);
+            ctx.stroke();
+
+            // ラベル
+            ctx.font = 'bold 14px Outfit, sans-serif';
+            ctx.textBaseline = 'middle';
+            
+            // Before ラベル
+            const beforeLabelX = offsetX + 20;
+            const labelY = height - 35;
+            drawLabel(ctx, 'BEFORE', beforeLabelX, labelY, '#f87171');
+            
+            // After ラベル
+            const afterLabelX = offsetX + drawWidth - 100;
+            drawLabel(ctx, 'AFTER', afterLabelX, labelY, '#4ade80');
+        }
+
+        function drawLabel(ctx, text, x, y, color) {
+            const padding = 12;
+            const metrics = ctx.measureText(text);
+            const textWidth = metrics.width;
+            
+            // 背景
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+            const bgX = x - padding;
+            const bgY = y - 12;
+            const bgWidth = textWidth + padding * 2;
+            const bgHeight = 28;
+            const radius = 14;
+            
+            ctx.beginPath();
+            ctx.roundRect(bgX, bgY, bgWidth, bgHeight, radius);
+            ctx.fill();
+            
+            // テキスト
+            ctx.fillStyle = color;
+            ctx.fillText(text, x, y + 2);
+        }
+
         // リセット
         resetBtn.addEventListener('click', () => {
             beforeLoaded = false;
             afterLoaded = false;
+            beforeImageData = null;
+            afterImageData = null;
             sliderPosition = 50;
             
             beforeBox.innerHTML = `
@@ -552,7 +1040,6 @@
             
             compareSection.classList.remove('active');
             
-            // イベントリスナーを再設定
             const newBeforeInput = document.getElementById('beforeInput');
             const newAfterInput = document.getElementById('afterInput');
             handleImageUpload(newBeforeInput, beforeBox, beforeImage, 'before');
